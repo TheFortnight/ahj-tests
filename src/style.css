@@ -15,4 +15,5 @@
 
   .hasimg {
     background-image: url('./goblin.png');
+    background-size: contain;
   }
