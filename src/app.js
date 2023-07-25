@@ -1,40 +1,61 @@
-const buildgrid = () => {
-    const grid = document.querySelector('.grid');
-    for (let i = 0; i < 4; i++) {
-      for (let j = 0; j < 4; j++) {
-        const cell = document.createElement('div');
-        cell.classList.add('cell');
-        grid.appendChild(cell);
-      }
-    }
+const luhn = (number) => {
+  const num = +number;
+  console.log('NUM: '+ typeof num);
+  if (isNaN(num)) {
+    alert('ENTER VALID CARD NUMBER');
+    const input = document.querySelector('.input');
+    input.value = '';
+    return;
   }
-
-  buildgrid();
-
-const cells = document.querySelectorAll('.cell');
-cellsArr = Array.from(cells);
-let lastIndex = 100;
-
-function randomIntFromInterval(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min)
+  if (number.length != 16) {
+    alert('NUMBER SHOULD HAVE 16 digits!');
+    return;
   }
+  let sum = 0;
+  cardNumber = number.split("");
+  for (i=0; i<cardNumber.length - 1; i+=2) {
+    cardNumber[i] *= 2;
+    if (cardNumber[i] > 9) cardNumber[i] = cardNumber[i] - 9;
+  }
+  cardNumber.forEach(element => {
+    sum += +element;
+  });
 
-const interval = setInterval(() => {
-    const cellImg = document.querySelector('.hasimg');
-    let rndInt = randomIntFromInterval(1, 16);
-    if (cellsArr.findIndex(el => el.classList.contains('hasimg')) == lastIndex -1) {
-        console.log('TWICE!!!');
-        rndInt = randomIntFromInterval(1, 16);
-    }
-   if (cellImg) cellImg.classList.remove('hasimg');
-    
-    cellsArr[rndInt - 1].classList.add('hasimg');
-}, 1500)
+  return (sum % 10 == 0);
 
-const grid = document.querySelector('.grid');
-grid.addEventListener('click', (event)=> {
-    const target = event.target;
-    if (target.classList.contains('hasimg')) alert('GOT IT!');
 
+}
+
+
+const button = document.querySelector('.button');
+button.addEventListener('click', (event) => {
+  event.preventDefault();
+  const input = document.querySelector('.input');
+  const number = input.value;
+  const res = luhn(number);
+  const resField = document.querySelector('.result');
+  resField.textContent = res ? 'CARD NUMBER IS VALID<' : 'CARD NUMBER IS NOT VALID';
 })
-  
+
+const setActive = (className) => {
+  const element = document.querySelector(className);
+  const actEl = document.querySelector('.isActive');
+  if (actEl) actEl.classList.remove('isActive');
+  element.classList.add('isActive');
+}
+
+const inputField = document.querySelector('.input');
+inputField.addEventListener('input', (event) => {
+  event.preventDefault();
+  let number = inputField.value;
+  if (number.length > 0) {
+    if (isNaN(+number)) {
+      return;
+    }
+    number = number.substring(0, 1);
+    if (number === '2') setActive('.mir');
+    if (number === '3') setActive('.express');
+    if (number === '4') setActive('.visa');
+    if (number === '5') setActive('.mastercard');
+  }
+})
