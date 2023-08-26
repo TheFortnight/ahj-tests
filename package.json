@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./dist/main.js",
-    "dev": "webpack serve --mode none",
+    "dev": "webpack serve --mode development",
     "build": "webpack  --mode production",
     "test": "jest"
   },
@@ -39,6 +39,7 @@
     "webpack-dev-server": "^4.15.0"
   },
   "dependencies": {
-    "core-js": "^3.30.2"
+    "core-js": "^3.30.2",
+    "puppeteer": "^21.1.0"
   }
 }
